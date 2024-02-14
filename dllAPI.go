@@ -54,7 +54,7 @@ func packGameFiles(dirPath *C.char, manifestPath *C.char, outFile *C.char, compr
 	// write the embedded .pak file
 	embedded, _ := embeddedFiles.ReadFile("req/Packed_P.pak")
 	os.WriteFile(outPath+".pak", embedded, os.ModePerm)
-	return C.int(n - 1) // correction for dependencies file
+	return C.int(n)
 }
 
 //export freeStringList
@@ -108,8 +108,8 @@ func createManifestFile(utocFile *C.char, ucasFile *C.char, outputFile *C.char, 
 		staticErr = err.Error()
 		return C.int(-1)
 	}
-	
-	if d.hdr.isEncrypted(){
+
+	if d.hdr.isEncrypted() {
 		tmpFile, err := os.CreateTemp("", "tmp")
 		if err != nil {
 			staticErr = err.Error()
